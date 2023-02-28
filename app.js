@@ -2,8 +2,7 @@
 const http = require("http");
 const fs = require("fs");
 const jwt = require("jsonwebtoken");
-// let querystring = require("querystring");
-let secret = "1XAIX69DXLFND[P823";
+ let secret = "1XAIX69DXLFND[P823";
 
 let data = fs.readFileSync("db.json", "utf-8")
 
@@ -12,16 +11,11 @@ http.createServer(
         res.writeHead(202, { 'Content-type': 'text/html' });
 
         console.log(req.url);
-        // console.log(body.id);
-
+ 
 
         if (req.url == "/signup") {
             let pData = JSON.parse(data);
             console.log(pData);
-
-
-
-
 
             let dt = "";
             req.on('data', (d) => {
@@ -58,15 +52,12 @@ http.createServer(
                     //   console.log(pData);
 
                     pData = JSON.stringify(pData);
-                    console.log("------------------------------------------");
-                    console.log(dt, "-------");
                     let token = jwt.sign(dt, secret);
                     fs.writeFile("db.json", pData, "utf-8", function (err) {
                         console.log('added sucessfully');
                     })
                     res.end(JSON.stringify({ token: token }));
-                    // res.end();
-                }
+                 }
 
                 else {
                     console.log("already present");
@@ -80,8 +71,7 @@ http.createServer(
         }
 
         if (req.url == "/signin") {
-            //  let pData= jwt.verify( req.headers.token ,secret  );
-            //  console.log(pData,"*******");
+ 
             let pData = JSON.parse(data);
 
             //data from json api input
@@ -118,36 +108,25 @@ http.createServer(
                     let rdata = pData.filter((i) => {
                         return i.mail == dmail;
                     })
-                    //   console.log(datas);
-                    console.log(rdata);
+                     console.log(rdata);
                     rdata = JSON.stringify(rdata);
                     let token = jwt.sign(rdata, secret);
 
-                    //  console.log(datas);
-                    res.end(JSON.stringify({ token: token }));
+                     res.end(JSON.stringify({ token: token }));
 
                 }
 
             })
-            //  res.end('Auth is required');
-        }
+         }
 
 
 
         if (req.url.includes("/gets")) {
 
-            // let pData=JSON.parse(data); 
-            let pData = jwt.verify(req.headers.token, secret);
+             let pData = jwt.verify(req.headers.token, secret);
             console.log(pData);
             let reqId;
-
-            //  let tempId=req.url; 
-            //  reqId=tempId.replace("/gets?id=" ,"");
-            //  console.log(reqId,"*****");
-            //  let resData=pData.find( (i)=> i.id==reqId  );
-            //  console.log(resData);
-            // let output=JSON.stringify(resData);
-            //  console.log(output); 
+ 
             res.end("pData");
         }
 
@@ -166,16 +145,9 @@ http.createServer(
 
 
             let resData = pData.filter((i) => i.id != pDatas.id);
-            // let   restData = pData.filter((i) => i.id != aa);
-            //     console.log(resData[0].asign,"------");
-            //     let getRole=resData[0].role;
-            //     console.log(resData,"dataa");
-            //     console.log(getRole);
+ 
             let rr = pDatas.asign;
-            //    console.log(rr);
-            //console.log(resData); 
-            //     console.log(aa,"-----");
-
+        
             let dt = "";
             req.on('data', (d) => {
                 dt += d;
@@ -197,18 +169,14 @@ http.createServer(
                 }
                 else {
 
-                    //   let arr=resData.asign;
-                    console.log(rr, "------------------");
-
-                    //   console.log(ans);
-
+                     console.log(rr, "------------------");
+ 
 
                     rr.push(dt.id);
 
                     console.log(rr, "=========");
                     console.log(pDatas);
-                    // console.log(resData[0],"========");
-                    //  restData.push( resData );
+      
                     resData.push(pDatas);
                     resData = JSON.stringify(resData);
                     fs.writeFile("db.json", resData, "utf-8", function (err) {
@@ -259,12 +227,7 @@ http.createServer(
 
             let pData = JSON.parse(data);
             let reqId = pDatas.id;
-            //  let tempId=req.url;   
-            //  reqId=tempId.replace("/put?id=" ,"");
-            //  console.log(reqId,"*****"); 
-            // let resData = pData.find((i) => i.id == reqId);
-            // console.log(resData);
-            // console.log(resData.role);
+           
             var assign = pDatas.asign;
             console.log(assign);
             let rr = pDatas.role;
@@ -278,24 +241,19 @@ http.createServer(
             })
             req.on("end", (d) => {
                 dt = JSON.parse(dt);
-                console.log(dt.id, "------");
-                let checkId = assign.includes(dt.id);
+                 let checkId = assign.includes(dt.id);
 
 
                 if (rr == "t" && checkId) {
                     let resData = pData.filter((i) => i.id != pDatas.id);
-                    // let res2 = pData.find((i) => i.id == dt.id);
-                    //   console.log(parData);
+             
                     console.log(dt, "88");
-                    console.log(dt.marks, "-------");
-                    pDatas.marks = dt.marks;
-                    //   console.log(res2,"+++++");
-                    resData.push(pDatas);
+                     pDatas.marks = dt.marks;
+                     resData.push(pDatas);
                     console.log(resData);
 
                     resData = JSON.stringify(resData);
-                    // console.log(resData);
-                    fs.writeFile("db.json", resData, "utf-8", function (err) {
+                     fs.writeFile("db.json", resData, "utf-8", function (err) {
                         console.log('added');
                     })
                     res.end("update successfuly");
@@ -315,10 +273,7 @@ http.createServer(
         if (req.url.includes("upinfo")) {
             let pDatas = jwt.verify(req.headers.token, secret);
             let pData = JSON.parse(data);
-            // let reqId;
-            // let tempId=req.url; 
-            // reqId=tempId.replace("/upinfo?id=" ,"");
-            // console.log(reqId,"*****" );
+ 
             let dt = "";
             req.on('data', (d) => {
                 dt += d;
@@ -333,13 +288,11 @@ http.createServer(
                     res.end("you can't update data");
                 }
                 else {
-                    // let resData=pData.find( (i)=>i.id==dt.id );
-                    let reqData = pData.filter((i) => i.id != dt.id);
+                     let reqData = pData.filter((i) => i.id != dt.id);
                     pDatas.name = dt.name;
                     pDatas.mail = dt.mail;
                     pDatas.password = dt.password;
-                    // let gname=resData.assign;
-                    // gname.push(22);
+       
                     console.log(pDatas);
                     reqData.push(pDatas);
                     reqData = JSON.stringify(reqData);
